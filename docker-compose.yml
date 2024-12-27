@@ -14,3 +14,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: 1234
       MYSQL_DATABASE: mysql-test
+    healthcheck:
+      test: [ "CMD-SHELL", "mysqladmin ping -h localhost -u root -p1234 && sleep 5" ]
+      interval: 5s
+      retries: 10
