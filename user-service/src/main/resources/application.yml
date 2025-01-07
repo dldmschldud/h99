@@ -1,0 +1,42 @@
+server:
+  port: 9000
+spring:
+  application:
+    name: user-service
+  datasource:
+    url: jdbc:mysql://mysqldb:3306/h99?allowPublicKeyRetrieval=true
+    username: root
+    password: ${MYSQL_ROOT_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        use_sql_comments: true
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://eureka-server:8761/eureka/}
+
+  instance:
+    lease-renewal-interval-in-seconds: 10
+    lease-expiration-duration-in-seconds: 30
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+    non-secure-port-enabled: true
+    metadata-map:
+      instanceId: ${spring.application.name}:${random.value}
+
+jwt:
+  secret: pxsDH6umm/FhJMY8yubGNdQALvtZj/LypgLlZELcW5M=
+
+kakao:
+  client-id: 39f37f6de0df77d3fad0459c8ff7334f
+  redirect-uri: http://localhost:8080/login/oauth2/kakao
+  client-secret: YOUR_CLIENT_SECRET (optional)

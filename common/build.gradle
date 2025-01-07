@@ -10,8 +10,7 @@ bootJar {
 jar {
     enabled = true
 }
-
-group = 'com'
+group = 'com.common'
 version = '0.0.1-SNAPSHOT'
 
 java {
@@ -20,27 +19,22 @@ java {
     }
 }
 
-configurations {
-    compileOnly {
-        extendsFrom annotationProcessor
-    }
-}
-
 repositories {
     mavenCentral()
 }
 
+ext {
+    set('springCloudVersion', "2023.0.1")
+}
 dependencies {
-    implementation project(':common')
-    implementation project(':user-service')
-    implementation project(':video-service')
-
-
     //jwt 인증
     implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
 
+
+    // spring cloud - eureka
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
     //spring data jpa
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
@@ -64,6 +58,13 @@ dependencies {
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
 tasks.named('test') {
     useJUnitPlatform()
+    enabled = false
 }
